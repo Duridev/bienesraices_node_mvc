@@ -1,0 +1,55 @@
+1.- En la terminal iniciamos NPM y crea nuestro archivo Package.json:
+ npm init
+
+2.- Instalar dependencias "npm i" + "dependecia"
+
+npm i express
+
+-se crea el archivo package-lock.json, quie maneja las depencias de las dependencias.
+-No se debe modificar este archivo.
+
+Y para instalar dependencias de desarrollo "npm i -D" + "dependecia"
+
+3.- colorcar en package.json << "type": "module", >>
+
+
+***** para volver a conectar a NPM, colocar "npm run server", y luego ya 
+puedo seguir con nodemon
+
+
+--------- Temnplate Engine (motores de plantilla)
+
+
+            *************     TAILWIND CSS ****************
+
+npm i -D tailwindcss autoprefixer postcss postcss-cli
+
+en tailwind.css:
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+npx tailwindcss init -p
+(crea los archivos postcss.config.js y tailwind.config.js)
+
+En tailwind.config.js, poner en content [], la ruta de los template => 
+['./views/**/*.pug']
+
+Añadimos al package.json el script
+    "css": "postcss public/css/tailwind.css -o public/css/app.css --watch"
+
+luego en consola npm run css
+
+                    ************** ORM *******************
+
+npm i sequelize mysql2
+
+con postgres:
+
+1) npm install sequelize pg pg-hstore
+
+2
+
+
