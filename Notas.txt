@@ -52,4 +52,7 @@ con postgres:
 
 2
 
+ VARIABLES DE ENTORNO
+ 
 
+ npm i dotenv
