@@ -54,5 +54,8 @@ con postgres:
 
  VARIABLES DE ENTORNO
  
-
  npm i dotenv
+
+ VALIDACIONES DEL FORMULARIO
+
+ npm i express-validator

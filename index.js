@@ -1,17 +1,22 @@
 import express from 'express'
 import usuarioRoutes from './routes/usuarioRoutes.js'
-import db from './config/db.js';
+import db from './config/db.js'
 
 // Crear la app
 const app = express();
 
+// Habilitar conexion a la base de datos
+app.use( express.urlencoded({extended: true}) );
+
+
 // Conexión a la base de datos
 try {
     await db.authenticate(); // Promesa que se resuelve cuando conectamos con la BD
-    console.log('Conexión correcta a la base de datso');
+    db.sync();
+    console.log('Conexión correcta a la base de datos');
 } catch (error) {
     console.log(error);
-}
+};
 
 
 // Habilitar PUG
