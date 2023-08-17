@@ -59,3 +59,10 @@ con postgres:
  VALIDACIONES DEL FORMULARIO
 
  npm i express-validator
+
+
+
+********* HASHEAR password *************
+
+npm i bcrypt
+

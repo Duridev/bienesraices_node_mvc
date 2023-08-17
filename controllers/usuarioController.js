@@ -36,14 +36,29 @@ const registrar = async (req, res) => {
             }
     });
 }
+    // Extraer los datos
+    const {nombre, email, password } = req.body;
 
     // Verificar si el usuario no este duplicado
     const existeUsuario = await Usuario.findOne({ where : {email : req.body.email} });
+    if(existeUsuario) {
+        return res.render('auth/registro', {
+            pagina:'Crear cuenta',
+            errores: [{msg: 'El Usuario ya está Registrado'}],
+            usuario: {
+                nombre: req.body.nombre,
+                email: req.body.email
+            }
+        })
+    }
 
-    console.log(existeUsuario);
-
-    return;
-
+    // Almacenar usuario
+    await Usuario.create({
+        nombre,
+        email,
+        password,
+        token: 123
+    });
 }
 
 const formularioOlvidePassword = (req, res) => {
