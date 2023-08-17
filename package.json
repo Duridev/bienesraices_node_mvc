@@ -13,7 +13,7 @@
     "MVC",
     "Pug",
     "Tailwind",
-    "MySQL",
+    "PostgresSQL",
     "Sequelize"
   ],
   "author": "Daniel Uribe - Duridev",
