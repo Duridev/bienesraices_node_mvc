@@ -1,5 +1,7 @@
 import { check, validationResult } from 'express-validator'
 import Usuario from "../models/Usuario.js";
+import { generarId } from '../helper/token.js';
+import { emailRegistro } from "../helper/emails.js";
 
 
 const formularioLogin = (req, res) => {
@@ -20,7 +22,7 @@ const registrar = async (req, res) => {
     await check('nombre').notEmpty().withMessage('El nombre no puede ir vacío').run(req);
     await check('email').isEmail().withMessage('Eso no parece un email').run(req);
     await check('password').isLength({ min: 6 }).withMessage('El password debe tener al menos 6 caracteres').run(req);
-    await check('repetir_password').equals('password').withMessage('Los password no son iguales').run(req);
+    await check('repetir_password').equals(req.body.password).withMessage('Los password no son iguales').run(req);
 
     let resultado = validationResult(req);
 
@@ -34,8 +36,8 @@ const registrar = async (req, res) => {
                 nombre: req.body.nombre,
                 email: req.body.email
             }
-    });
-}
+        });
+    }
     // Extraer los datos
     const {nombre, email, password } = req.body;
 
@@ -43,7 +45,7 @@ const registrar = async (req, res) => {
     const existeUsuario = await Usuario.findOne({ where : {email : req.body.email} });
     if(existeUsuario) {
         return res.render('auth/registro', {
-            pagina:'Crear cuenta',
+            pagina:'Crear Cuenta',
             errores: [{msg: 'El Usuario ya está Registrado'}],
             usuario: {
                 nombre: req.body.nombre,
@@ -53,12 +55,26 @@ const registrar = async (req, res) => {
     }
 
     // Almacenar usuario
-    await Usuario.create({
+    const usuario = await Usuario.create({
         nombre,
         email,
         password,
-        token: 123
+        token: generarId()
     });
+
+    // Envio email de confirmacion
+    emailRegistro({
+        nombre: usuario.nombre,
+        email: usuario.email,
+        token: usuario.token
+    })
+
+
+    // Mostrar mensaje de confirmacion
+    res.render('templates/mensaje', {
+        pagina: 'Cuenta Creada Correctamente',
+        mensaje: 'Hemos enviado un Email de Confirmación, presiona el enlace'
+    })
 }
 
 const formularioOlvidePassword = (req, res) => {
